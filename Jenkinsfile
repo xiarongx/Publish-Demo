@@ -9,7 +9,7 @@ node('master') {
 
         stage('Build and Publish'){
             bat 'C:\\Tools\\nuget.exe restore WebApplication2.sln'
-            bat "\"${tool 'MSBuild - 15.0'}\" WebApplication2.sln /p:DeployOnBuild=true /p:PublishProfile=WebApplication2\\Properties\\PublishProfiles\\CustomProfile.pubxml"
+            bat "\"${tool 'MSBuild - 15.0'}\" WebApplication2.sln /p:DeployOnBuild=true /p:PublishProfile=CustomProfile.pubxml"
         }
         /*
         stage('Backend Test'){
