@@ -20,7 +20,7 @@ node('master') {
             // The default powershell execution policy is restrict, we need to change it to bypass or unrestricted in
             // order to execute ps1 script inside a jenkins pipeline script
             // bat 'npm install xunit.runner.console'
-            bat "powershell C:\\Tools\\XUnit_Test_Runner.ps1 -rootDir 'C:\\Program Files (x86)\\Jenkins\\workspace\\Back-End-Pipeline-1\\' -defaultReportsLocation 'C:\\Program Files (x86)\\Jenkins\\workspace\\Back-End-Pipeline-1\\TestReport\\' -reportFilePathPattern '{0}\\xunit_report_{1}.xml' -xunitTestRunnerPath 'C:\\Tools\\xunit.runner.console.2.3.1\\tools\\net452\\'"
+            bat "powershell C:\\Tools\\XUnit_Test_Runner.ps1 -rootDir 'C:\\Program Files (x86)\\Jenkins\\workspace\\Publish-Demo\\' -defaultReportsLocation 'C:\\Program Files (x86)\\Jenkins\\workspace\\Publish-Demo\\TestReport\\' -reportFilePathPattern '{0}\\xunit_report_{1}.xml' -xunitTestRunnerPath 'C:\\Tools\\xunit.runner.console.2.3.1\\tools\\net452\\'"
 
 
             // and this is the manual way to do the same thing
@@ -34,24 +34,22 @@ node('master') {
         //    archiveArtifacts "Sample1/bin/Release/**/*"
         //}
         
-        // Email SMTP has not been set up
-        /*
+
         mail body: 'project build successful', 
                         subject: 'pipeline test email: successful', 
                         to: 'cxu@acr.org'
-        */
+
     }
     catch(error){
-        // Email SMTP has not been set up
-        /*
+
         mail body: "project build error is here: ${env.BUILD_URL}", 
                         subject: 'pipeline test email: fail', 
                         to: 'cxu@acr.org'
-        */
+
         throw error
     }
     finally{
         // Use Xunit Plugin to read report
-        // step([$class: 'XUnitPublisher', testTimeMargin: '3000', thresholdMode: 1, thresholds: [[$class: 'FailedThreshold', failureNewThreshold: '5', failureThreshold: '20', unstableNewThreshold: '5', unstableThreshold: '10'], [$class: 'SkippedThreshold', failureNewThreshold: '5', failureThreshold: '20', unstableNewThreshold: '5', unstableThreshold: '10']], tools: [[$class: 'XUnitDotNetTestType', deleteOutputFiles: true, failIfNotNew: true, pattern: 'TestReport\\*.xml', skipNoTestFiles: true, stopProcessingIfError: true]]])
+        step([$class: 'XUnitPublisher', testTimeMargin: '3000', thresholdMode: 1, thresholds: [[$class: 'FailedThreshold', failureNewThreshold: '5', failureThreshold: '20', unstableNewThreshold: '5', unstableThreshold: '10'], [$class: 'SkippedThreshold', failureNewThreshold: '5', failureThreshold: '20', unstableNewThreshold: '5', unstableThreshold: '10']], tools: [[$class: 'XUnitDotNetTestType', deleteOutputFiles: true, failIfNotNew: true, pattern: 'TestReport\\*.xml', skipNoTestFiles: true, stopProcessingIfError: true]]])
     }
 }
